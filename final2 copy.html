@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Awareness App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+        }
+
+        header {
+            background-color: #333;
+            padding: 1em;
+            color: #fff;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #444;
+            padding: 0.5em;
+        }
+
+        main {
+            padding: 1em;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 1em;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: auto;
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 2em;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .login-form button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 0.7em 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            background-color: #ecf0f1;
+            padding: 1em;
+            border-radius: 5px;
+            margin-top: 1em;
+        }
+
+        .options a {
+            text-decoration: none;
+            color: #333;
+            background-color: #95a5a6;
+            padding: 1em;
+            margin: 0.5em;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .options a:hover {
+            background-color: #7f8c8d;
+        }
+
+        .web-view {
+            width: 100%;
+            background-color: #ecf0f1;
+            margin-top: 1em;
+            padding: 1em;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .call-button {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 0.7em 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .call-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Security Awareness App</h1>
+    </header>
+    <nav>
+        <span id="user-status">Not logged in</span>
+    </nav>
+    <main class="container" id="app-content" style="display: none;">
+        <div class="options">
+            <a href="#" onclick="showAwarenessPage()">Awareness</a>
+            <a href="#" onclick="showSaveMePage()">Save Me</a>
+            <a href="#" onclick="showEncryptionPage()">Encryption</a>
+            <a href="#" onclick="showDecryptionPage()">Decryption</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+
+        <div id="awareness-page" class="web-view" style="display: none;">
+            <!-- Awareness iframes -->
+            <button onclick="loadAwarenessWebsites()" class="call-button">Load Awareness Websites</button>
+        </div>
+        <div id="save-me-page" class="web-view" style="display: none;">
+            <!-- Save Me iframes -->
+            <button onclick="loadSaveMeWebsites()" class="call-button">Load Save Me Websites</button>
+            <button onclick="callCyberSecurityCell()" class="call-button">Call Indian Cyber Security Cell (1930)</button>
+        </div>
+        <div id="encryption-page" class="web-view" style="display: none;">
+            <!-- Encryption section -->
+            <label for="inputText">Enter text to encrypt:</label>
+            <textarea id="inputText" rows="4" cols="50"></textarea>
+            <br>
+            <button onclick="encryptData()">Encrypt</button>
+            <br>
+            <label for="encryptedText">Encrypted text:</label>
+            <textarea id="encryptedText" rows="4" cols="50" readonly></textarea>
+        </div>
+        <div id="decryption-page" class="web-view" style="display: none;">
+            <!-- Decryption section -->
+            <label for="encryptedTextToDecrypt">Enter encrypted text to decrypt:</label>
+            <textarea id="encryptedTextToDecrypt" rows="4" cols="50"></textarea>
+            <br>
+            <button onclick="decryptData()">Decrypt</button>
+            <br>
+            <label for="decryptedText">Decrypted text:</label>
+            <textarea id="decryptedText" rows="4" cols="50" readonly></textarea>
+        </div>
+    </main>
+    <footer>
+        &copy; 2023 Security Awareness App
+    </footer>
+
+    <script>
+        function showAwarenessPage() {
+            document.getElementById('awareness-page').style.display = 'block';
+            document.getElementById('save-me-page').style.display = 'none';
+            document.getElementById('encryption-page').style.display = 'none';
+            document.getElementById('decryption-page').style.display = 'none';
+        }
+
+        function showSaveMePage() {
+            document.getElementById('awareness-page').style.display = 'none';
+            document.getElementById('save-me-page').style.display = 'block';
+            document.getElementById('encryption-page').style.display = 'none';
+            document.getElementById('decryption-page').style.display = 'none';
+        }
+
+        function showEncryptionPage() {
+            document.getElementById('awareness-page').style.display = 'none';
+            document.getElementById('save-me-page').style.display = 'none';
+            document.getElementById('encryption-page').style.display = 'block';
+            document.getElementById('decryption-page').style.display = 'none';
+        }
+
+        function showDecryptionPage() {
+            document.getElementById('awareness-page').style.display = 'none';
+            document.getElementById('save-me-page').style.display = 'none';
+            document.getElementById('encryption-page').style.display = 'none';
+            document.getElementById('decryption-page').style.display = 'block';
+        }
+
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Simulate authentication logic (replace with actual authentication logic)
+            if (username === 'user' && password === 'password') {
+                document.getElementById('user-status').innerText = 'Logged in as ' + username;
+                document.getElementById('app-content').style.display = 'block';
+                document.getElementById('login-form').style.display = 'none';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        }
+
+        function logout() {
+            document.getElementById('user-status').innerText = 'Not logged in';
+            document.getElementById('app-content').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+
+        function loadAwarenessWebsites() {
+            // Show the Awareness iframes
+            document.getElementById('awareness-page').style.display = 'block';
+
+            // Create and append iframes with Awareness websites
+            var awarenessPage = document.getElementById('awareness-page');
+            var iframe1 = document.createElement('iframe');
+            iframe1.src = 'https://www.livemint.com/money/personal-finance/online-payment-fraud-beware-of-these-five-most-common-scams-in-india-that-everyone-should-know-to-protect-their-money-11701752298703.html';
+            awarenessPage.appendChild(iframe1);
+
+            var iframe2 = document.createElement('iframe');
+            iframe2.src = 'https://cyware.com/hacker-news';
+            awarenessPage.appendChild(iframe2);
+        }
+
+        function loadSaveMeWebsites() {
+            // Show the Save Me iframes
+            document.getElementById('save-me-page').style.display = 'block';
+
+            // Create and append iframes with Save Me websites
+            var saveMePage = document.getElementById('save-me-page');
+            var iframe1 = document.createElement('iframe');
+            iframe1.src = 'https://haveibeenpwned.com/';
+            saveMePage.appendChild(iframe1);
+
+            var iframe2 = document.createElement('iframe');
+            iframe2.src = 'https://haveibeenpwned.com/Passwords';
+            saveMePage.appendChild(iframe2);
+
+            var iframe3 = document.createElement('iframe');
+            iframe3.src = 'https://tathya.uidai.gov.in/login';
+            saveMePage.appendChild(iframe3);
+        }
+
+        function callCyberSecurityCell() {
+            var phoneNumber = 'tel:1930';
+            window.location.href = phoneNumber;
+        }
+
+        function encryptData() {
+            var inputText = document.getElementById('inputText').value;
+            // Simulate a basic encryption algorithm (replace with a secure encryption algorithm in a real-world scenario)
+            var encryptedText = btoa(inputText);
+            document.getElementById('encryptedText').value = encryptedText;
+        }
+
+        function decryptData() {
+            var encryptedTextToDecrypt = document.getElementById('encryptedTextToDecrypt').value;
+            // Simulate a basic decryption algorithm (replace with a secure decryption algorithm in a real-world scenario)
+            var decryptedText = atob(encryptedTextToDecrypt);
+            document.getElementById('decryptedText').value = decryptedText;
+        }
+    </script>
+
+    <div class="login-form" id="login-form">
+        <h2>Login</h2>
+        <form onsubmit="event.preventDefault(); login();">
+            <label for="username">Username or Email:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
